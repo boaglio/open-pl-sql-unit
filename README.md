@@ -1,4 +1,4 @@
-open-pl-unit
+open-pl-sql-unit
 ============
 
-Open PL/SQL Unit Test for PL/SQL Programmers
+Open PL/SQL Unit Test for PL/SQL Programmers =)
