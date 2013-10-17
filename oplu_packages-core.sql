@@ -1,4 +1,4 @@
-create or replace package body assert is
+ create or replace package body assert is
 
 	/** internal constants */
 	FLAG_FOR_SUCESS constant varchar2(1) := 'Y';
@@ -142,6 +142,146 @@ create or replace package body assert is
 				 v_fg_result,
 				 p_expected,
 				 p_actual);
+	end;
+
+	procedure assert_equals
+	(
+		p_expected  in date,
+		p_actual    in date,
+		p_test_name in varchar2 default MSG_FOR_TEST_WITH_NO_NAME
+	) is
+		v_owner     varchar2(1000);
+		v_name      varchar2(1000);
+		v_lineno    number;
+		v_caller_t  varchar2(1000);
+		v_fg_result char(1) := FLAG_FOR_ERROR;
+	begin
+		OWA_UTIL.who_called_me(v_owner,
+				       v_name,
+				       v_lineno,
+				       v_caller_t);
+		if (p_actual = p_expected)
+		then
+			v_fg_result := FLAG_FOR_SUCESS;
+		end if;
+		save_test_result(sys_context('USERENV',
+					     'SID'),
+				 v_owner,
+				 p_test_name,
+				 v_name,
+				 v_caller_t,
+				 v_lineno,
+				 v_fg_result,
+				 to_char(p_expected,
+					 'dd/MM/yyyy hh24:mi:ss'),
+				 to_char(p_actual,
+					 'dd/MM/yyyy hh24:mi:ss'));
+	end;
+
+	procedure assert_equals
+	(
+		p_expected  in number,
+		p_actual    in number,
+		p_test_name in varchar2 default MSG_FOR_TEST_WITH_NO_NAME
+	) is
+		v_owner     varchar2(1000);
+		v_name      varchar2(1000);
+		v_lineno    number;
+		v_caller_t  varchar2(1000);
+		v_fg_result char(1) := FLAG_FOR_ERROR;
+	begin
+		OWA_UTIL.who_called_me(v_owner,
+				       v_name,
+				       v_lineno,
+				       v_caller_t);
+		if (p_actual = p_expected)
+		then
+			v_fg_result := FLAG_FOR_SUCESS;
+		end if;
+		save_test_result(sys_context('USERENV',
+					     'SID'),
+				 v_owner,
+				 p_test_name,
+				 v_name,
+				 v_caller_t,
+				 v_lineno,
+				 v_fg_result,
+				 to_char(p_expected),
+				 to_char(p_actual));
+	end;
+
+	procedure assert_equals
+	(
+		p_expected  in boolean,
+		p_actual    in boolean,
+		p_test_name in varchar2 default MSG_FOR_TEST_WITH_NO_NAME
+	) is
+		v_owner     varchar2(1000);
+		v_name      varchar2(1000);
+		v_lineno    number;
+		v_caller_t  varchar2(1000);
+		v_fg_result char(1) := FLAG_FOR_ERROR;
+		v_actual    varchar2(5) := 'FALSE';
+		v_expected  varchar2(6) := 'FALSE';
+	begin
+		OWA_UTIL.who_called_me(v_owner,
+				       v_name,
+				       v_lineno,
+				       v_caller_t);
+		if (p_actual = p_expected)
+		then
+			v_fg_result := FLAG_FOR_SUCESS;
+		end if;
+		if (p_actual)
+		then
+			v_actual := 'TRUE';
+		end if;
+		if (p_expected)
+		then
+			v_expected := 'TRUE';
+		end if;
+		save_test_result(sys_context('USERENV',
+					     'SID'),
+				 v_owner,
+				 p_test_name,
+				 v_name,
+				 v_caller_t,
+				 v_lineno,
+				 v_fg_result,
+				 v_expected,
+				 v_actual);
+	end;
+
+	procedure assert_equals
+	(
+		p_expected  in pls_integer,
+		p_actual    in pls_integer,
+		p_test_name in varchar2 default MSG_FOR_TEST_WITH_NO_NAME
+	) is
+		v_owner     varchar2(1000);
+		v_name      varchar2(1000);
+		v_lineno    number;
+		v_caller_t  varchar2(1000);
+		v_fg_result char(1) := FLAG_FOR_ERROR;
+	begin
+		OWA_UTIL.who_called_me(v_owner,
+				       v_name,
+				       v_lineno,
+				       v_caller_t);
+		if (p_actual = p_expected)
+		then
+			v_fg_result := FLAG_FOR_SUCESS;
+		end if;
+		save_test_result(sys_context('USERENV',
+					     'SID'),
+				 v_owner,
+				 p_test_name,
+				 v_name,
+				 v_caller_t,
+				 v_lineno,
+				 v_fg_result,
+				 to_char(p_expected),
+				 to_char(p_actual));
 	end;
 
 	/** purge by owner **/

@@ -50,10 +50,38 @@ create or replace package assert is
 		p_test_name in varchar2 default MSG_FOR_TEST_WITH_NO_NAME
 	);
 
-	procedure assert_equals
+    procedure assert_equals
 	(
 		p_expected  in varchar2,
 		p_actual    in varchar2,
+		p_test_name in varchar2 default MSG_FOR_TEST_WITH_NO_NAME
+	);
+
+	procedure assert_equals
+	(
+		p_expected  in date,
+		p_actual    in date,
+		p_test_name in varchar2 default MSG_FOR_TEST_WITH_NO_NAME
+	);
+
+	procedure assert_equals
+	(
+		p_expected  in number,
+		p_actual    in number,
+		p_test_name in varchar2 default MSG_FOR_TEST_WITH_NO_NAME
+	);
+
+	procedure assert_equals
+	(
+		p_expected  in boolean,
+		p_actual    in boolean,
+		p_test_name in varchar2 default MSG_FOR_TEST_WITH_NO_NAME
+	);
+
+	procedure assert_equals
+	(
+		p_expected  in pls_integer,
+		p_actual    in pls_integer,
 		p_test_name in varchar2 default MSG_FOR_TEST_WITH_NO_NAME
 	);
 
